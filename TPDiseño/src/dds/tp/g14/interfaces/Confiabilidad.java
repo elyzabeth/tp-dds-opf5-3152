@@ -1,4 +1,4 @@
-package dds.tp.g14.entities;
+package dds.tp.g14.interfaces;
 
 public interface Confiabilidad {
 

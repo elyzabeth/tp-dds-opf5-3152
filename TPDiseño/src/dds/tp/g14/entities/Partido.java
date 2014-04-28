@@ -1,6 +1,7 @@
 package dds.tp.g14.entities;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class Partido {
@@ -8,7 +9,7 @@ public class Partido {
 	
 	List<Jugador> integrantes = new ArrayList<Jugador>();
 	
-	public Partido(Jugador...jugadores){
+	public Partido(Date fecha,Jugador...jugadores){
 		for (Jugador jugador : jugadores) {
 			this.addJugador(jugador);
 		}
@@ -27,11 +28,15 @@ public class Partido {
 		if(integrantes.size() < CANT_MAX_JUGADORES){
 			return true;
 		}else{
-			for (Jugador jugador : integrantes) {
-				if(jugador.retirarseDelPartido()){
-					integrantes.remove(jugador);
-					return true;
-				}
+			return isAnyPlaceAvaiable();
+		}
+	}
+	
+	private boolean isAnyPlaceAvaiable(){
+		for (Jugador jugador : integrantes) {
+			if(jugador.retirarseDelPartido()){
+				integrantes.remove(jugador);
+				return true;
 			}
 		}
 		return false;
