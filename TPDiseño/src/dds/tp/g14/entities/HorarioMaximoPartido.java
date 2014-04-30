@@ -4,11 +4,11 @@ import java.util.Date;
 
 import dds.tp.g14.interfaces.Condicion;
 
-public class HorarioMaximo extends Condicion{
+public class HorarioMaximoPartido extends Condicion{
 
 	private Date horarioMaximo;
 	
-	public HorarioMaximo(Partido p, Date horaMax) {
+	public HorarioMaximoPartido(Partido p, Date horaMax) {
 		super(p);
 		this.horarioMaximo = horaMax;
 	}
