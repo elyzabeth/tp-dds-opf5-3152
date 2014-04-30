@@ -34,21 +34,21 @@ public class PrimeraEntregaTest {
 	public void agregarCondicionEdadMax(){
 		System.out.println("agregarCondicionEdadMax");
 		Jugador condicionado = new Jugador(21, casual, new Condicional(new EdadMaxJugadores(partido, 20)));
-		partido.addJugador(condicionado);
-		Assert.assertFalse(partido.getJugador(condicionado));
+		partido.agregarJugador(condicionado);
+		Assert.assertFalse(partido.contieneJugador(condicionado));
 	}
 	
 	@Test
 	public void nuevoJugadorConfiableAlPartido(){
 		Jugador interesado = new Jugador(26, confiable, new Estandar());
-		partido.addJugador(interesado);
-		Assert.assertTrue(partido.getJugador(interesado));
+		partido.agregarJugador(interesado);
+		Assert.assertTrue(partido.contieneJugador(interesado));
 	}
 	
 	@Test
 	public void nuevoJugadorCasualAlPartido(){
 		Jugador interesado = new Jugador(18, casual, new Solidario());
-		partido.addJugador(interesado);
-		Assert.assertTrue(partido.getJugador(interesado));
+		partido.agregarJugador(interesado);
+		Assert.assertTrue(partido.contieneJugador(interesado));
 	}
 }

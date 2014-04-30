@@ -25,7 +25,7 @@ public class Jugador {
 		return participacion.mantenerseEnPartido();
 	}
 	
-	public void changeConfiabilidad(Confiabilidad conf){
+	public void cambiarConfiabilidad(Confiabilidad conf){
 		this.confiabilidad = conf;
 	}
 }

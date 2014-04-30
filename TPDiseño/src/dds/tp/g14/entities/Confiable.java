@@ -5,7 +5,7 @@ import dds.tp.g14.interfaces.Confiabilidad;
 public class Confiable implements Confiabilidad	{
 
 	@Override
-	public boolean isConfiable() {
+	public boolean esConfiable() {
 		return true;
 	}
 

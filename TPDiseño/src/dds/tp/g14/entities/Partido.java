@@ -15,19 +15,19 @@ public class Partido {
 	public Partido(Date fecha,Jugador...jugadores){
 		this.fechaInicio = fecha;
 		for (Jugador jugador : jugadores) {
-			this.addJugador(jugador);
+			this.agregarJugador(jugador);
 		}
 	}
 	
-	public void addJugador(Jugador jugador){
-		if(isAdditionPosible()){
+	public void agregarJugador(Jugador jugador){
+		if(esPosibleIngreso()){
 			integrantes.add(jugador);
-			checkCondicionesJugadores();
+			comprobarCondicionesJugadores();
 		}
 			
 	}
 	
-	private void checkCondicionesJugadores() {
+	private void comprobarCondicionesJugadores() {
 		List<Jugador> jugadoresAEliminar = new ArrayList<Jugador>();
 		for (Jugador jugador : integrantes) {
 			if(!jugador.mantenerseEnPartido())
@@ -38,19 +38,19 @@ public class Partido {
 		}
 	}
 
-	public boolean getJugador(Jugador jugador){
+	public boolean contieneJugador(Jugador jugador){
 		return integrantes.contains(jugador);
 	}
 	
-	public boolean isAdditionPosible(){
+	public boolean esPosibleIngreso(){
 		if(integrantes.size() < CANT_MAX_JUGADORES){
 			return true;
 		}else{
-			return isAnyPlaceAvaiable();
+			return hayLugarDisponible();
 		}
 	}
 	
-	private boolean isAnyPlaceAvaiable(){
+	private boolean hayLugarDisponible(){
 		for (Jugador jugador : integrantes) {
 			if(jugador.retirarseAnteIngresoNuevoJugador()){
 				integrantes.remove(jugador);
