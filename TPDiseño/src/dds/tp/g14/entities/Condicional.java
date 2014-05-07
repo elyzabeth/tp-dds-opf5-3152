@@ -1,24 +1,33 @@
 package dds.tp.g14.entities;
 
-import dds.tp.g14.interfaces.Condicion;
 import dds.tp.g14.interfaces.Participacion;
 
-public class Condicional implements Participacion{
-
-	public Condicion condicion;
+public abstract class Condicional implements Participacion{
 	
-	public Condicional(Condicion c){
-		this.condicion = c;
+	private JerarquiaParticipacion CONDICIONAL;
+	
+	public Partido partido;
+	
+	public Condicional(Partido p){
+		this.partido = p;
 	}
 	
 	@Override
-	public boolean retirarseAnteIngresoNuevoJugador() {
+	public JerarquiaParticipacion prioridad() {
+		return CONDICIONAL;
+	}
+	
+	public boolean evaluarCondicion(){
 		return true;
+	}
+	
+	@Override
+	public boolean retirarseAnteIngresoNuevoJugador(Jugador jugador) {
+		return jugador.participacion.prioridad().getValue() > this.prioridad().getValue();
 	}
 
 	@Override
 	public boolean mantenerseEnPartido() {
-		return condicion.evaluarCondicion();
+		return evaluarCondicion();
 	}
-
 }

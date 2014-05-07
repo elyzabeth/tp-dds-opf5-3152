@@ -20,7 +20,7 @@ public class Partido {
 	}
 	
 	public void agregarJugador(Jugador jugador){
-		if(esPosibleIngreso()){
+		if(esPosibleIngreso(jugador)){
 			integrantes.add(jugador);
 			comprobarCondicionesJugadores();
 		}
@@ -42,17 +42,17 @@ public class Partido {
 		return integrantes.contains(jugador);
 	}
 	
-	public boolean esPosibleIngreso(){
+	public boolean esPosibleIngreso(Jugador interesado){
 		if(integrantes.size() < CANT_MAX_JUGADORES){
 			return true;
 		}else{
-			return hayLugarDisponible();
+			return hayLugarDisponible(interesado);
 		}
 	}
 	
-	private boolean hayLugarDisponible(){
+	private boolean hayLugarDisponible(Jugador interesado){
 		for (Jugador jugador : integrantes) {
-			if(jugador.retirarseAnteIngresoNuevoJugador()){
+			if(jugador.retirarseAnteIngresoNuevoJugador(interesado)){
 				integrantes.remove(jugador);
 				return true;
 			}

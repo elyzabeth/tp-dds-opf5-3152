@@ -2,9 +2,7 @@ package dds.tp.g14.entities;
 
 import java.util.Date;
 
-import dds.tp.g14.interfaces.Condicion;
-
-public class HorarioMaximoPartido extends Condicion{
+public class HorarioMaximoPartido extends Condicional{
 
 	private Date horarioMaximo;
 	

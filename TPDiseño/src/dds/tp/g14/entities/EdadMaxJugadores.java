@@ -1,8 +1,7 @@
 package dds.tp.g14.entities;
 
-import dds.tp.g14.interfaces.Condicion;
 
-public class EdadMaxJugadores extends Condicion{
+public class EdadMaxJugadores extends Condicional{
 
 	private int EDAD_MAXIMA;
 	
