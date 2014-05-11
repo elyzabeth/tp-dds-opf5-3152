@@ -5,7 +5,7 @@ import dds.g14.tp.partido.Partido;
 
 public class Estandar implements Participacion{
 	
-	private JerarquiaParticipacion ESTANDAR;
+	private JerarquiaParticipacion jerarquia = JerarquiaParticipacion.ESTANDAR;
 	
 	@Override
 	public boolean retirarseAnteIngresoNuevoJugador(Jugador jugador) {
@@ -14,7 +14,7 @@ public class Estandar implements Participacion{
 
 	@Override
 	public JerarquiaParticipacion prioridad() {
-		return ESTANDAR;
+		return jerarquia;
 	}
 
 	@Override

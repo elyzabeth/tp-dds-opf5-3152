@@ -4,11 +4,11 @@ import dds.g14.tp.partido.Partido;
 
 public abstract class Condicional implements Participacion{
 	
-	private JerarquiaParticipacion CONDICIONAL;
+	private JerarquiaParticipacion jerarquia = JerarquiaParticipacion.CONDICIONAL;
 	
 	@Override
 	public JerarquiaParticipacion prioridad() {
-		return CONDICIONAL;
+		return jerarquia;
 	}
 	
 	public boolean evaluarCondicion(Partido partido){
@@ -17,7 +17,7 @@ public abstract class Condicional implements Participacion{
 	
 	@Override
 	public boolean retirarseAnteIngresoNuevoJugador(Jugador jugador) {
-		return jugador.participacion.prioridad().getValue() > this.prioridad().getValue();
+		return this.prioridad().getValue() == jugador.participacion.prioridad().getValue();
 	}
 	
 	@Override

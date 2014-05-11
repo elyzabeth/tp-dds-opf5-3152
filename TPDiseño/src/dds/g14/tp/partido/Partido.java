@@ -23,24 +23,21 @@ public class Partido {
 		}
 	}
 	
-	public void agregarJugador(Jugador jugador){
-		esPosibleIngreso(jugador);
-		integrantes.add(jugador);
-		comprobarCondicionesDeParticipantes();
+	public void agregarJugador(Jugador interesado){
+		try {
+			interesado.puedeJugarEn(this);
+			puedoAgregar(interesado);
+			integrantes.add(interesado);
+			comprobarCondicionesDeParticipantes();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 	}
 	
 	public void contieneJugador(Jugador jugador) throws JugadorNoEsParticipanteException{
 		if( !integrantes.contains(jugador) )
 			throw new JugadorNoEsParticipanteException();
-	}
-	
-	private void esPosibleIngreso(Jugador interesado){
-		try {
-			puedoAgregar(interesado);
-			interesado.puedeJugarEn(this);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 	}
 	
 	private void comprobarCondicionesDeParticipantes() {
@@ -58,22 +55,26 @@ public class Partido {
 	}
 	
 	private void puedoAgregar(Jugador jugador) throws ImposibleAgregarJugadorAPartidoException{
-		if( !(integrantes.size() < CANT_MAX_JUGADORES) ){
-			throw new ImposibleAgregarJugadorAPartidoException();
-		}else{
-			hacerLugarParaNuevoJugador(jugador);
+		/* si hay espacio, listo
+		 * si no hay espacio, sacar a alguien, listo
+		 * */
+		if( !(integrantes.size() < CANT_MAX_JUGADORES)){
+			liberarEspacioEnIntegrantesPara(jugador);
 		}
 	}
 	
-	private void hacerLugarParaNuevoJugador(Jugador interesado) throws ImposibleAgregarJugadorAPartidoException{
+	private void liberarEspacioEnIntegrantesPara(Jugador interesado) throws ImposibleAgregarJugadorAPartidoException{
+		Jugador jugadorASacar = null;
 		for (Jugador jugador : integrantes) {
 			if(jugador.retirarseAnteIngresoNuevoJugador(interesado)){
-				integrantes.remove(jugador);
+				jugadorASacar = jugador;
 				break;
 			}
 		}
-		if( !(integrantes.size() < CANT_MAX_JUGADORES) ){
+		if(jugadorASacar == null){
 			throw new ImposibleAgregarJugadorAPartidoException();
+		}else{
+			integrantes.remove(jugadorASacar);
 		}
 	}
 }

@@ -7,7 +7,9 @@ import java.util.Date;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.internal.runners.statements.ExpectException;
 
+import dds.g14.tp.exceptions.ImposibleAgregarJugadorAPartidoException;
 import dds.g14.tp.jugador.Estandar;
 import dds.g14.tp.jugador.Jugador;
 import dds.g14.tp.jugador.Solidario;
@@ -48,6 +50,15 @@ public class PrimeraEntregaTest {
 		partido.agregarJugador(solidarioRelleno);
 		partido.agregarJugador(estandar10);
 		Assert.assertTrue(partido.integrantes.contains(estandar10));
+	}
+	
+	@Test
+	public void agregarJugadorEstandarAPartidoLlenoEstandars(){
+		Jugador estandar10 = new Jugador(21, true, new Estandar());
+		Jugador estandarRelleno = new Jugador(22, true, new Estandar());
+		partido.agregarJugador(estandarRelleno);
+		partido.agregarJugador(estandar10);
+		Assert.assertFalse(partido.integrantes.contains(estandar10));
 	}
 	
 }

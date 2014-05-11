@@ -5,16 +5,16 @@ import dds.g14.tp.partido.Partido;
 
 public class Solidario implements Participacion{
 
-	private JerarquiaParticipacion SOLIDARIO;
+	private JerarquiaParticipacion jerarquia = JerarquiaParticipacion.SOLIDARIO;
 	
 	@Override
 	public boolean retirarseAnteIngresoNuevoJugador(Jugador jugador) {
-		return jugador.participacion.prioridad().getValue() <= this.prioridad().getValue() ;
+		return this.prioridad().getValue() <= jugador.participacion.prioridad().getValue();
 	}
 
 	@Override
 	public JerarquiaParticipacion prioridad() {
-		return SOLIDARIO;
+		return jerarquia;
 	}
 
 	@Override
