@@ -1,18 +1,20 @@
-package dds.tp.g14.entities;
+package dds.g14.tp.jugador;
 
 import java.util.Date;
+
+import dds.g14.tp.partido.Partido;
 
 public class HorarioMaximoPartido extends Condicional{
 
 	private Date horarioMaximo;
 	
-	public HorarioMaximoPartido(Partido p, Date horaMax) {
-		super(p);
+	public HorarioMaximoPartido(Date horaMax) {
+		super();
 		this.horarioMaximo = horaMax;
 	}
 
 	@Override
-	public boolean evaluarCondicion() {
+	public boolean evaluarCondicion(Partido partido) {
 		return horarioMaximo.compareTo(partido.fechaInicio) <= 0;
 	}
 }

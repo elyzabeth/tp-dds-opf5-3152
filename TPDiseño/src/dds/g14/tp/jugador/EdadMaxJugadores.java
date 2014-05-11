@@ -1,17 +1,19 @@
-package dds.tp.g14.entities;
+package dds.g14.tp.jugador;
+
+import dds.g14.tp.partido.Partido;
 
 
 public class EdadMaxJugadores extends Condicional{
 
 	private int EDAD_MAXIMA;
 	
-	public EdadMaxJugadores(Partido p, int e) {
-		super(p);
+	public EdadMaxJugadores(int e) {
+		super();
 		this.EDAD_MAXIMA = e;
 	}
 
 	@Override
-	public boolean evaluarCondicion() {
+	public boolean evaluarCondicion(Partido partido) {
 		for (Jugador jugador: partido.integrantes) {
 			if(jugador.edad > EDAD_MAXIMA){
 				return false;

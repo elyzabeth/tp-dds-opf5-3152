@@ -1,6 +1,7 @@
-package dds.tp.g14.entities;
+package dds.g14.tp.jugador;
 
-import dds.tp.g14.interfaces.Participacion;
+import dds.g14.tp.partido.Partido;
+
 
 public class Estandar implements Participacion{
 	
@@ -12,13 +13,13 @@ public class Estandar implements Participacion{
 	}
 
 	@Override
-	public boolean mantenerseEnPartido() {
-		return true;
+	public JerarquiaParticipacion prioridad() {
+		return ESTANDAR;
 	}
 
 	@Override
-	public JerarquiaParticipacion prioridad() {
-		return ESTANDAR;
+	public boolean puedeEstarEnPartido(Partido partido) {
+		return true;
 	}
 
 }
