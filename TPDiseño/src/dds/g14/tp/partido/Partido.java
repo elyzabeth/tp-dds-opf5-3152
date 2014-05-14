@@ -63,7 +63,7 @@ public class Partido {
 		}
 	}
 	
-	private void puedoAgregar(Jugador jugador) throws Exception{
+	private void puedoAgregar(Jugador jugador) throws ImposibleAgregarJugadorAPartidoException{
 		/* si hay espacio, listo
 		 * si no hay espacio, sacar a alguien, listo
 		 * */
