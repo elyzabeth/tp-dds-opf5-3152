@@ -61,8 +61,6 @@ public class Partido {
 		 * */
 		if( !(integrantes.size() < CANT_MAX_JUGADORES)){
 			liberarEspacioEnIntegrantesPara(jugador);
-		}else{
-			throw new PartidoLlenoException();
 		}
 	}
 	
