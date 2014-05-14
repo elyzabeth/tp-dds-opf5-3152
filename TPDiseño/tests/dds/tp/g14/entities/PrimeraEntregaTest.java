@@ -88,8 +88,4 @@ public class PrimeraEntregaTest {
 		Assert.assertFalse(partido.integrantes.contains(estandar10));
 	}
 	
-	public void lalala(){
-		
-	}
-	
 }

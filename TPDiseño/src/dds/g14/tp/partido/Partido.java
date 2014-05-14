@@ -6,6 +6,7 @@ import java.util.List;
 
 import dds.g14.tp.exceptions.ImposibleAgregarJugadorAPartidoException;
 import dds.g14.tp.exceptions.JugadorNoEsParticipanteException;
+import dds.g14.tp.exceptions.PartidoLlenoException;
 import dds.g14.tp.jugador.Jugador;
 
 public class Partido {
@@ -54,12 +55,14 @@ public class Partido {
 		}
 	}
 	
-	private void puedoAgregar(Jugador jugador) throws ImposibleAgregarJugadorAPartidoException{
+	private void puedoAgregar(Jugador jugador) throws Exception{
 		/* si hay espacio, listo
 		 * si no hay espacio, sacar a alguien, listo
 		 * */
 		if( !(integrantes.size() < CANT_MAX_JUGADORES)){
 			liberarEspacioEnIntegrantesPara(jugador);
+		}else{
+			throw new PartidoLlenoException();
 		}
 	}
 	
