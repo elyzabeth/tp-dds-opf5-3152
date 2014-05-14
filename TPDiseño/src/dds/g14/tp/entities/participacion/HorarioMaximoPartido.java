@@ -1,8 +1,8 @@
-package dds.g14.tp.jugador.participacion;
+package dds.g14.tp.entities.participacion;
 
 import java.util.Date;
 
-import dds.g14.tp.partido.Partido;
+import dds.g14.tp.entities.Partido;
 
 public class HorarioMaximoPartido extends Condicional{
 

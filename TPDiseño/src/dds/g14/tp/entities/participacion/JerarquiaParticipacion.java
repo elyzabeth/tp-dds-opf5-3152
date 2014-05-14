@@ -1,4 +1,4 @@
-package dds.g14.tp.jugador.participacion;
+package dds.g14.tp.entities.participacion;
 public enum JerarquiaParticipacion{
 	ESTANDAR(3), SOLIDARIO(2), CONDICIONAL(1);
 	

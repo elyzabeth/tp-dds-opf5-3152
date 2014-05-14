@@ -1,7 +1,7 @@
-package dds.g14.tp.jugador.participacion;
+package dds.g14.tp.entities.participacion;
 
-import dds.g14.tp.jugador.Jugador;
-import dds.g14.tp.partido.Partido;
+import dds.g14.tp.entities.Jugador;
+import dds.g14.tp.entities.Partido;
 
 
 public class Estandar implements Participacion{

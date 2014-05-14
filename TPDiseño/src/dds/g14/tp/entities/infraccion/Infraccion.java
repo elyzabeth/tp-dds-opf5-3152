@@ -1,4 +1,4 @@
-package dds.g14.tp.jugador.infraccion;
+package dds.g14.tp.entities.infraccion;
 
 import java.util.Date;
 

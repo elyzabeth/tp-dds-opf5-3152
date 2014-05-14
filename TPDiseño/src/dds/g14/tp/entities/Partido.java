@@ -1,4 +1,4 @@
-package dds.g14.tp.partido;
+package dds.g14.tp.entities;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -6,7 +6,7 @@ import java.util.List;
 
 import dds.g14.tp.exceptions.ImposibleAgregarJugadorAPartidoException;
 import dds.g14.tp.exceptions.JugadorNoEsParticipanteException;
-import dds.g14.tp.jugador.Jugador;
+import dds.g14.tp.observers.Observer;
 
 public class Partido {
 	
@@ -16,9 +16,15 @@ public class Partido {
 	
 	public List<Jugador> integrantes;
 	
-	public Partido(Date fecha,Jugador...jugadores){
+	private List<Observer> observers;
+	
+	private String direccionMailAdminitrador;
+	
+	public Partido(String direccionMailAdmin, Date fecha,Jugador...jugadores){
 		this.fechaInicio = fecha;
+		this.direccionMailAdminitrador = direccionMailAdmin;
 		this.integrantes = new ArrayList<Jugador>();
+		this.observers = new ArrayList<Observer>();
 		for (Jugador jugador : jugadores) {
 			this.agregarJugador(jugador);
 		}
@@ -30,8 +36,7 @@ public class Partido {
 			puedoAgregar(interesado);
 			integrantes.add(interesado);
 			comprobarCondicionesDeParticipantes();
-			verificarCantidadDeJugadoresInscriptos();
-			notificarRestoParticipantes();
+			observersRealizarAcciones();
 		} catch (Exception e) {
 			System.out.println("Ocurrio un error agregando un jugador: " + e);
 		}
@@ -41,7 +46,7 @@ public class Partido {
 	public void retirarJugador(Jugador jugador) throws JugadorNoEsParticipanteException{
 		contieneJugador(jugador);
 		integrantes.remove(jugador);
-		verificarCantidadDeJugadoresInscriptos();
+		observersRealizarAcciones();
 	}
 	
 	public void contieneJugador(Jugador jugador) throws JugadorNoEsParticipanteException{
@@ -49,6 +54,16 @@ public class Partido {
 			throw new JugadorNoEsParticipanteException();
 	}
 	
+	public void agregarObserver(Observer observer){
+		observers.add(observer);
+	}
+	
+	/*  -----  Metodos privados  -----  */
+	
+	public String getDireccionMailAdminitrador() {
+		return direccionMailAdminitrador;
+	}
+
 	private void comprobarCondicionesDeParticipantes() {
 		List<Jugador> jugadoresAEliminar = new ArrayList<Jugador>();
 		for (Jugador jugador : integrantes) {
@@ -87,11 +102,9 @@ public class Partido {
 		}
 	}
 	
-	private void verificarCantidadDeJugadoresInscriptos(){
-		System.out.println("Cantidad de jugadores ahora es: " + integrantes.size());
-	}
-	
-	public void notificarRestoParticipantes(){
-		System.out.println("Se ha enviado un mail a los (" + integrantes.size() + ") integrantes ");
+	public void observersRealizarAcciones(){
+		for (Observer observer : observers) {
+			observer.realizarObservacion();
+		}
 	}
 }

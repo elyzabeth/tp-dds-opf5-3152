@@ -1,28 +1,26 @@
-package dds.g14.tp.jugador;
+package dds.g14.tp.entities;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import dds.g14.tp.entities.infraccion.Infraccion;
+import dds.g14.tp.entities.participacion.Participacion;
 import dds.g14.tp.exceptions.ImposibleJugarEnPartidoException;
-import dds.g14.tp.jugador.infraccion.Infraccion;
-import dds.g14.tp.jugador.participacion.Participacion;
-import dds.g14.tp.partido.Partido;
 
 
 public class Jugador {
 	
 	public int edad;
-	
 	private boolean confiabilidad;
-	
 	public Participacion participacion;
-	
 	private List<Infraccion> infracciones;
+	private String direccionMail;
 	
-	public Jugador(int edad, boolean confiable, Participacion p){
+	public Jugador(int edad, boolean confiable, Participacion p, String direccionMail){
 		this.confiabilidad = confiable;
 		this.edad = edad;
 		this.participacion = p;
+		this.direccionMail = direccionMail;
 		infracciones = new ArrayList<Infraccion>();
 	}
 	
@@ -39,4 +37,9 @@ public class Jugador {
 	public void imponerInfraccion(Infraccion infraccion){
 		infracciones.add(infraccion);
 	}
+
+	public String getDireccionMail() {
+		return direccionMail;
+	}
+	
 }
