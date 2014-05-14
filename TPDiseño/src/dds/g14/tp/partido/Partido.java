@@ -6,7 +6,6 @@ import java.util.List;
 
 import dds.g14.tp.exceptions.ImposibleAgregarJugadorAPartidoException;
 import dds.g14.tp.exceptions.JugadorNoEsParticipanteException;
-import dds.g14.tp.exceptions.PartidoLlenoException;
 import dds.g14.tp.jugador.Jugador;
 
 public class Partido {
@@ -15,10 +14,11 @@ public class Partido {
 	
 	public Date fechaInicio;
 	
-	public List<Jugador> integrantes = new ArrayList<Jugador>();
+	public List<Jugador> integrantes;
 	
 	public Partido(Date fecha,Jugador...jugadores){
 		this.fechaInicio = fecha;
+		this.integrantes = new ArrayList<Jugador>();
 		for (Jugador jugador : jugadores) {
 			this.agregarJugador(jugador);
 		}
@@ -30,10 +30,18 @@ public class Partido {
 			puedoAgregar(interesado);
 			integrantes.add(interesado);
 			comprobarCondicionesDeParticipantes();
+			verificarCantidadDeJugadoresInscriptos();
+			notificarRestoParticipantes();
 		} catch (Exception e) {
 			System.out.println("Ocurrio un error agregando un jugador: " + e);
 		}
 		
+	}
+	
+	public void retirarJugador(Jugador jugador) throws JugadorNoEsParticipanteException{
+		contieneJugador(jugador);
+		integrantes.remove(jugador);
+		verificarCantidadDeJugadoresInscriptos();
 	}
 	
 	public void contieneJugador(Jugador jugador) throws JugadorNoEsParticipanteException{
@@ -61,8 +69,6 @@ public class Partido {
 		 * */
 		if( !(integrantes.size() < CANT_MAX_JUGADORES)){
 			liberarEspacioEnIntegrantesPara(jugador);
-		}else{
-			throw new PartidoLlenoException();
 		}
 	}
 	
@@ -79,5 +85,13 @@ public class Partido {
 		}else{
 			integrantes.remove(jugadorASacar);
 		}
+	}
+	
+	private void verificarCantidadDeJugadoresInscriptos(){
+		System.out.println("Cantidad de jugadores ahora es: " + integrantes.size());
+	}
+	
+	public void notificarRestoParticipantes(){
+		System.out.println("Se ha enviado un mail a los (" + integrantes.size() + ") integrantes ");
 	}
 }

@@ -1,5 +1,6 @@
-package dds.g14.tp.jugador;
+package dds.g14.tp.jugador.participacion;
 
+import dds.g14.tp.jugador.Jugador;
 import dds.g14.tp.partido.Partido;
 
 public abstract class Condicional implements Participacion{

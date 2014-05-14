@@ -8,10 +8,10 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import dds.g14.tp.jugador.EdadMaxJugadores;
-import dds.g14.tp.jugador.Estandar;
 import dds.g14.tp.jugador.Jugador;
-import dds.g14.tp.jugador.Solidario;
+import dds.g14.tp.jugador.participacion.EdadMaxJugadores;
+import dds.g14.tp.jugador.participacion.Estandar;
+import dds.g14.tp.jugador.participacion.Solidario;
 import dds.g14.tp.partido.Partido;
 
 

@@ -1,4 +1,4 @@
-package dds.g14.tp.jugador;
+package dds.g14.tp.jugador.participacion;
 
 import java.util.Date;
 
