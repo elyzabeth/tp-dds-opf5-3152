@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import dds.g14.tp.entities.infraccion.JugadorNoPresentoReemplazo;
 import dds.g14.tp.exceptions.ImposibleAgregarJugadorAPartidoException;
 import dds.g14.tp.exceptions.JugadorNoEsParticipanteException;
 
@@ -17,10 +18,13 @@ public class Partido {
 	
 	private String direccionMailAdminitrador;
 	
+	private MailSender mailSender;
+	
 	public Partido(String direccionMailAdmin, Date fecha,Jugador...jugadores){
 		this.fechaInicio = fecha;
 		this.direccionMailAdminitrador = direccionMailAdmin;
 		this.integrantes = new ArrayList<Jugador>();
+		this.mailSender = new MailSender();
 		for (Jugador jugador : jugadores) {
 			this.agregarJugador(jugador);
 		}
@@ -31,6 +35,9 @@ public class Partido {
 			interesado.puedeJugarEn(this);
 			puedoAgregar(interesado);
 			integrantes.add(interesado);
+			enviarMailAIntegrantes();
+			if(integrantes.size() == CANT_MAX_JUGADORES)
+				enviarMailAdmin("Se completo el partido");
 			comprobarCondicionesDeParticipantes();
 		} catch (Exception e) {
 			System.out.println("Ocurrio un error agregando un jugador: " + e);
@@ -40,7 +47,11 @@ public class Partido {
 	
 	public void retirarJugador(Jugador jugador) throws JugadorNoEsParticipanteException{
 		contieneJugador(jugador);
+		int cantAnt = integrantes.size();
 		integrantes.remove(jugador);
+		if(cantAnt == CANT_MAX_JUGADORES && (integrantes.size() == CANT_MAX_JUGADORES-1)){
+			enviarMailAdmin("El partido esta incompleto de nuevo");
+		}	
 	}
 	
 	public void contieneJugador(Jugador jugador) throws JugadorNoEsParticipanteException{
@@ -48,11 +59,24 @@ public class Partido {
 			throw new JugadorNoEsParticipanteException();
 	}
 	
-	/*  -----  Metodos privados  -----  */
-	
 	public String getDireccionMailAdminitrador() {
 		return direccionMailAdminitrador;
 	}
+	
+	public void presentarReemplazoAnteBaja(Jugador baja, Jugador reemplazo){
+		try {
+			retirarJugador(baja);
+			if(reemplazo != null){
+				agregarJugador(reemplazo);
+			}else{
+				baja.imponerInfraccion(new JugadorNoPresentoReemplazo(new Date()));
+			}
+		} catch (JugadorNoEsParticipanteException e) {
+			System.out.println("Se intento dar de baja un jugador que no es participante");
+		}
+	}
+	
+	/*  -----  Metodos privados  -----  */
 
 	private void comprobarCondicionesDeParticipantes() {
 		List<Jugador> jugadoresAEliminar = new ArrayList<Jugador>();
@@ -68,7 +92,7 @@ public class Partido {
 		}
 	}
 	
-	private void puedoAgregar(Jugador jugador) throws ImposibleAgregarJugadorAPartidoException{
+	private void puedoAgregar(Jugador jugador) throws ImposibleAgregarJugadorAPartidoException, JugadorNoEsParticipanteException{
 		/* si hay espacio, listo
 		 * si no hay espacio, sacar a alguien, listo
 		 * */
@@ -77,7 +101,7 @@ public class Partido {
 		}
 	}
 	
-	private void liberarEspacioEnIntegrantesPara(Jugador interesado) throws ImposibleAgregarJugadorAPartidoException{
+	private void liberarEspacioEnIntegrantesPara(Jugador interesado) throws ImposibleAgregarJugadorAPartidoException, JugadorNoEsParticipanteException{
 		Jugador jugadorASacar = null;
 		for (Jugador jugador : integrantes) {
 			if(jugador.retirarseAnteIngresoNuevoJugador(interesado)){
@@ -88,7 +112,27 @@ public class Partido {
 		if(jugadorASacar == null){
 			throw new ImposibleAgregarJugadorAPartidoException();
 		}else{
-			integrantes.remove(jugadorASacar);
+			retirarJugador(jugadorASacar);
 		}
+	}
+	
+	private void mandarMail(String mensaje, List<String> destinatarios){
+		for (String destinatario : destinatarios) {
+			mailSender.sendMail(mensaje, destinatario);
+		}
+	}
+	
+	private void enviarMailAIntegrantes(){
+		List<String> direcciones = new ArrayList<String>();
+		for (Jugador jugador : integrantes) {
+			direcciones.add(jugador.getDireccionMail());
+		}
+		mandarMail("Se agrego un nuevo jugador", direcciones);
+	}
+	
+	private void enviarMailAdmin(String mensaje){
+		List<String> direcciones = new ArrayList<String>();
+		direcciones.add(getDireccionMailAdminitrador());
+		mandarMail(mensaje, direcciones);
 	}
 }
