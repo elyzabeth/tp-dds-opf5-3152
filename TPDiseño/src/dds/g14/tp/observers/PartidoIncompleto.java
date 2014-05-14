@@ -10,7 +10,8 @@ public class PartidoIncompleto extends Observer{
 
 	@Override
 	public void realizarObservacion() {
-		System.out.println("Se mando un mail " + this.toString() + " al admin con la direccion: " + partido.getDireccionMailAdminitrador());
+		//TODO falta definir como darse cuenta que paso de 10 a 9
+		mailSender.sendMail("Partido nuevamente incompleto", partido.getDireccionMailAdminitrador());
 	}
 
 }

@@ -58,4 +58,21 @@ public class SegundaEntregaTest {
 		Assert.assertTrue(partido.integrantes.contains(estandar));
 	}
 	
+	@Test
+	public void darBajaJugadorConReemplazo(){
+		Jugador estandar = new Jugador(21, true, new Estandar(), "direccionNueva");
+		partido.agregarJugador(estandar);
+		Jugador reemplazo = new Jugador(21, true, new Estandar(), "direccionNueva");
+		partido.presentarReemplazoAnteBaja(estandar, reemplazo);
+		Assert.assertTrue(partido.integrantes.contains(reemplazo));
+	}
+	
+	@Test
+	public void darBajaJugadorSinReemplazo(){
+		Jugador estandar = new Jugador(21, true, new Estandar(), "direccionNueva");
+		partido.agregarJugador(estandar);
+		partido.presentarReemplazoAnteBaja(estandar, null);
+		Assert.assertTrue(estandar.getInfracciones().size() == 1);
+	}
+	
 }

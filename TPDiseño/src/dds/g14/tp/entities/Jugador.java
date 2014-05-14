@@ -41,5 +41,11 @@ public class Jugador {
 	public String getDireccionMail() {
 		return direccionMail;
 	}
+
+	public List<Infraccion> getInfracciones() {
+		return infracciones;
+	}
+	
+	
 	
 }

@@ -4,13 +4,14 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import dds.g14.tp.entities.infraccion.JugadorNoPresentoReemplazo;
 import dds.g14.tp.exceptions.ImposibleAgregarJugadorAPartidoException;
 import dds.g14.tp.exceptions.JugadorNoEsParticipanteException;
 import dds.g14.tp.observers.Observer;
 
 public class Partido {
 	
-	static private int CANT_MAX_JUGADORES = 10;
+	static public int CANT_MAX_JUGADORES = 10;
 	
 	public Date fechaInicio;
 	
@@ -58,6 +59,19 @@ public class Partido {
 		observers.add(observer);
 	}
 	
+	public void presentarReemplazoAnteBaja(Jugador baja, Jugador reemplazo){
+		try {
+			retirarJugador(baja);
+			if(reemplazo != null){
+				agregarJugador(reemplazo);
+			}else{
+				baja.imponerInfraccion(new JugadorNoPresentoReemplazo(new Date()));
+			}
+		} catch (JugadorNoEsParticipanteException e) {
+			System.out.println("Se intento dar de baja un jugador que no es participante");
+		}
+	}
+	
 	/*  -----  Metodos privados  -----  */
 	
 	public String getDireccionMailAdminitrador() {
@@ -78,7 +92,7 @@ public class Partido {
 		}
 	}
 	
-	private void puedoAgregar(Jugador jugador) throws ImposibleAgregarJugadorAPartidoException{
+	private void puedoAgregar(Jugador jugador) throws ImposibleAgregarJugadorAPartidoException, JugadorNoEsParticipanteException{
 		/* si hay espacio, listo
 		 * si no hay espacio, sacar a alguien, listo
 		 * */
@@ -87,7 +101,7 @@ public class Partido {
 		}
 	}
 	
-	private void liberarEspacioEnIntegrantesPara(Jugador interesado) throws ImposibleAgregarJugadorAPartidoException{
+	private void liberarEspacioEnIntegrantesPara(Jugador interesado) throws ImposibleAgregarJugadorAPartidoException,JugadorNoEsParticipanteException{
 		Jugador jugadorASacar = null;
 		for (Jugador jugador : integrantes) {
 			if(jugador.retirarseAnteIngresoNuevoJugador(interesado)){
@@ -98,7 +112,7 @@ public class Partido {
 		if(jugadorASacar == null){
 			throw new ImposibleAgregarJugadorAPartidoException();
 		}else{
-			integrantes.remove(jugadorASacar);
+			retirarJugador(jugadorASacar);
 		}
 	}
 	

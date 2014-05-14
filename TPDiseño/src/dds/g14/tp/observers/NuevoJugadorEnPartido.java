@@ -13,7 +13,7 @@ public class NuevoJugadorEnPartido extends Observer{
 	public void realizarObservacion() {
 		System.out.println("Se enviaran mails a las siguientes direcciones");
 		for (Jugador jugador : partido.integrantes) {
-			System.out.println("	direccion: " + jugador.getDireccionMail());
+			mailSender.sendMail("Se sumo un nuevo jugador", jugador.getDireccionMail());
 		}
 		System.out.println("Fin de envio de mails a jugadores");
 	}

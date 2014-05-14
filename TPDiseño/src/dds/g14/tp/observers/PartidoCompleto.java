@@ -10,7 +10,8 @@ public class PartidoCompleto extends Observer{
 
 	@Override
 	public void realizarObservacion() {
-		System.out.println("Se mando un mail " + this.toString() + " al admin con la direccion: " + partido.getDireccionMailAdminitrador());
+		if(partido.integrantes.size() == Partido.CANT_MAX_JUGADORES)
+			mailSender.sendMail("Partido completo", partido.getDireccionMailAdminitrador());
 	}
 
 }
