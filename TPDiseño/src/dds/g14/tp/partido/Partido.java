@@ -30,7 +30,7 @@ public class Partido {
 			integrantes.add(interesado);
 			comprobarCondicionesDeParticipantes();
 		} catch (Exception e) {
-			e.printStackTrace();
+			System.out.println("Ocurrio un error agregando un jugador: " + e);
 		}
 		
 	}

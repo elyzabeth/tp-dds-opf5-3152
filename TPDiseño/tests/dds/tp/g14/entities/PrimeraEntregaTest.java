@@ -7,9 +7,8 @@ import java.util.Date;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.internal.runners.statements.ExpectException;
 
-import dds.g14.tp.exceptions.ImposibleAgregarJugadorAPartidoException;
+import dds.g14.tp.jugador.EdadMaxJugadores;
 import dds.g14.tp.jugador.Estandar;
 import dds.g14.tp.jugador.Jugador;
 import dds.g14.tp.jugador.Solidario;
@@ -44,7 +43,35 @@ public class PrimeraEntregaTest {
 	}
 	
 	@Test
-	public void agregarJugadorEstandarAPartido(){
+	public void agregarJugadorEstandar(){
+		Jugador estandar = new Jugador(21, true, new Estandar());
+		partido.agregarJugador(estandar);
+		Assert.assertTrue(partido.integrantes.contains(estandar));
+	}
+	
+	@Test
+	public void agregarJugadorSolidario(){
+		Jugador solidario = new Jugador(21, true, new Solidario());
+		partido.agregarJugador(solidario);
+		Assert.assertTrue(partido.integrantes.contains(solidario));
+	}
+	
+	@Test
+	public void agregarJugadorCondicionalCondicionValida(){
+		Jugador condicional = new Jugador(21, true, new EdadMaxJugadores(30));
+		partido.agregarJugador(condicional);
+		Assert.assertTrue(partido.integrantes.contains(condicional));
+	}
+	
+	@Test
+	public void agregarJugadorCondicionalCondicionInvalida(){
+		Jugador condicional = new Jugador(21, true, new EdadMaxJugadores(22));
+		partido.agregarJugador(condicional);
+		Assert.assertFalse(partido.integrantes.contains(condicional));
+	}
+	
+	@Test
+	public void agregarJugadorEstandarAPartidoLlenoConSolidario(){
 		Jugador estandar10 = new Jugador(21, true, new Estandar());
 		Jugador solidarioRelleno = new Jugador(22, true, new Solidario());
 		partido.agregarJugador(solidarioRelleno);
@@ -53,7 +80,7 @@ public class PrimeraEntregaTest {
 	}
 	
 	@Test
-	public void agregarJugadorEstandarAPartidoLlenoEstandars(){
+	public void agregarJugadorEstandarAPartidoLlenoConEstandars(){
 		Jugador estandar10 = new Jugador(21, true, new Estandar());
 		Jugador estandarRelleno = new Jugador(22, true, new Estandar());
 		partido.agregarJugador(estandarRelleno);
