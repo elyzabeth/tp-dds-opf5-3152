@@ -6,7 +6,6 @@ import java.util.List;
 
 import dds.g14.tp.exceptions.ImposibleAgregarJugadorAPartidoException;
 import dds.g14.tp.exceptions.JugadorNoEsParticipanteException;
-import dds.g14.tp.observers.Observer;
 
 public class Partido {
 	
@@ -16,15 +15,12 @@ public class Partido {
 	
 	public List<Jugador> integrantes;
 	
-	private List<Observer> observers;
-	
 	private String direccionMailAdminitrador;
 	
 	public Partido(String direccionMailAdmin, Date fecha,Jugador...jugadores){
 		this.fechaInicio = fecha;
 		this.direccionMailAdminitrador = direccionMailAdmin;
 		this.integrantes = new ArrayList<Jugador>();
-		this.observers = new ArrayList<Observer>();
 		for (Jugador jugador : jugadores) {
 			this.agregarJugador(jugador);
 		}
@@ -36,7 +32,6 @@ public class Partido {
 			puedoAgregar(interesado);
 			integrantes.add(interesado);
 			comprobarCondicionesDeParticipantes();
-			observersRealizarAcciones();
 		} catch (Exception e) {
 			System.out.println("Ocurrio un error agregando un jugador: " + e);
 		}
@@ -46,16 +41,11 @@ public class Partido {
 	public void retirarJugador(Jugador jugador) throws JugadorNoEsParticipanteException{
 		contieneJugador(jugador);
 		integrantes.remove(jugador);
-		observersRealizarAcciones();
 	}
 	
 	public void contieneJugador(Jugador jugador) throws JugadorNoEsParticipanteException{
 		if( !integrantes.contains(jugador) )
 			throw new JugadorNoEsParticipanteException();
-	}
-	
-	public void agregarObserver(Observer observer){
-		observers.add(observer);
 	}
 	
 	/*  -----  Metodos privados  -----  */
@@ -99,12 +89,6 @@ public class Partido {
 			throw new ImposibleAgregarJugadorAPartidoException();
 		}else{
 			integrantes.remove(jugadorASacar);
-		}
-	}
-	
-	public void observersRealizarAcciones(){
-		for (Observer observer : observers) {
-			observer.realizarObservacion();
 		}
 	}
 }
