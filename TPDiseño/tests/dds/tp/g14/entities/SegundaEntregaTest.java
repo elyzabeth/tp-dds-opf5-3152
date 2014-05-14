@@ -45,4 +45,7 @@ public class SegundaEntregaTest {
 		Assert.assertTrue(partido.integrantes.contains(estandar));
 	}
 	
+	public void lalla(){
+		
+	}
 }
