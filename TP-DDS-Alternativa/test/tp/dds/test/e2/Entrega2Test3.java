@@ -9,17 +9,18 @@ import org.junit.Test;
 import tp.dds.dominio.Administrador;
 import tp.dds.dominio.InsEstandar;
 import tp.dds.dominio.Jugador;
-import tp.dds.dominio.Partido;
-import tp.dds.observer.BajaJugador;
-import tp.dds.observer.InscripcionAmigo;
-import tp.dds.observer.PartidoConfirmado;
+import tp.dds.dominio.NotificarInscripcion;
+import tp.dds.dominio.PartidoDecorator;
+import tp.dds.dominio.PartidoPosta;
+import tp.dds.interfaces.Partido;
 import tp.dds.test.MailSenderStub;
 
 
 public class Entrega2Test3 {
 
 	MailSenderStub mailSender;
-	Partido partido;
+	Partido partidoPosta;
+	PartidoDecorator partido;
 
 	Jugador jugador1, jugador2, jugador3, jugador4, jugador5;
 	Jugador jugador6, jugador7, jugador8, jugador9, jugador10, jugador11,
@@ -29,8 +30,9 @@ public class Entrega2Test3 {
 	public void initObjects() {
 
 		Date fechaPartido = new Date();
-		partido = new Partido(fechaPartido, new Administrador("Elizabeth", "elyzabeth@ddsutn.com"));
+		partidoPosta = new PartidoPosta(fechaPartido, new Administrador("Elizabeth", "elyzabeth@ddsutn.com"));
 		mailSender = new MailSenderStub();
+		partido = new NotificarInscripcion(partidoPosta, mailSender);
 
 		jugador1 = new Jugador("Martin", "martin@ddsutn.com", 1970);
 		jugador2 = new Jugador("Marcelo", "marcelo@ddsutn.com", 1974);
@@ -50,11 +52,6 @@ public class Entrega2Test3 {
 		jugador11.agregarAmigo(jugador3);
 		jugador11.agregarAmigo(jugador4);
 		jugador11.agregarAmigo(jugador7);
-
-		//Agrego observadores
-		partido.agregarObservador(new BajaJugador(partido, mailSender));
-		partido.agregarObservador(new InscripcionAmigo(partido, mailSender));
-		partido.agregarObservador(new PartidoConfirmado(partido, mailSender));
 
 		// Inscribo 10 jugadores estandar sin amigos se envia 1 mail al admin
 		partido.inscribir(new InsEstandar(jugador1));
