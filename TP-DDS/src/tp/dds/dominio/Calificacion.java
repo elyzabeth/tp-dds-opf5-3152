@@ -1,21 +1,13 @@
 package tp.dds.dominio;
 
 public class Calificacion {
-	
-	private Jugador jugador;
+
 	private Integer calificacion;
+	private String critica;
 
-	public Calificacion (Jugador jugador, Integer calificacion) {
-		this.jugador = jugador;
+	public Calificacion (Integer calificacion, String critica) {
 		this.calificacion = calificacion;
-	}
-
-	public Jugador jugador() {
-		return jugador;
-	}
-
-	public void setJugador(Jugador jugador) {
-		this.jugador = jugador;
+		this.critica = critica;
 	}
 
 	public Integer calificacion() {
@@ -24,6 +16,14 @@ public class Calificacion {
 
 	public void setCalificacion(Integer calificacion) {
 		this.calificacion = calificacion;
+	}
+
+	public String critica() {
+		return critica;
+	}
+
+	public void setCritica(String critica) {
+		this.critica = critica;
 	}
 
 	
