@@ -1,30 +1,27 @@
 package tp.dds.test.e3;
 
-import static org.junit.Assert.*;
-
-import java.util.Date;
-
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
 import tp.dds.dominio.Administrador;
 import tp.dds.dominio.BaseDeDatos;
+import tp.dds.dominio.CandidatoMayorDeEdad;
 import tp.dds.dominio.Jugador;
 
 
 public class Entrega3Test2 {
 	
-	Jugador jugador1, jugador2, jugador3 , jugador4, jugador5;
-	Jugador jugador6, jugador7, jugador8, jugador9, jugador10, jugador11, jugador12;
-	Administrador admin;	
+	Administrador admin;
 	BaseDeDatos baseDeDatos;
 
-	
+	Jugador jugador1, jugador2, jugador3 , jugador4, jugador5;
+	Jugador jugador6, jugador7, jugador8, jugador9, jugador10, jugador11, jugador12;
+
+
 	@Before
-	
 	public void initObjects(){
-		
+
 		jugador1 = new Jugador("Martin", 1970);
 		jugador2 = new Jugador("Marcelo", 1974);
 		jugador3 = new Jugador("Matias", 1992); 
@@ -37,10 +34,10 @@ public class Entrega3Test2 {
 		jugador10 = new Jugador("Cornelio", 1975);
 		jugador11 = new Jugador("Demian", 1978);
 		jugador12 = new Jugador("Gregorio", 1977);
-		
-		admin = new Administrador("Julián", "admin@ddsutn.com");
-		baseDeDatos = new BaseDeDatos();
-		
+
+		admin = new Administrador("Julian", "admin@ddsutn.com");
+		baseDeDatos = new BaseDeDatos(new CandidatoMayorDeEdad());
+
 		baseDeDatos.proponerJugador(jugador1);
 		baseDeDatos.proponerJugador(jugador2);
 		baseDeDatos.proponerJugador(jugador3);
@@ -54,16 +51,26 @@ public class Entrega3Test2 {
 		baseDeDatos.proponerJugador(jugador11);
 		baseDeDatos.proponerJugador(jugador12);
 	}
-	
+
+
 	@Test
 	public void evaluarJugadores() {
 		
 		System.out.println("Tiene que aprobar a todos");
-		admin.evaluarJugadoresPendientes(baseDeDatos);
-		Assert.assertEquals(8, baseDeDatos.jugadoresAprobados().size());
-		Assert.assertEquals(4, baseDeDatos.denegaciones().size());
+		baseDeDatos.evaluarJugadoresPendientes();
+		Assert.assertEquals(12, baseDeDatos.jugadoresAprobados().size());
+		Assert.assertEquals(0, baseDeDatos.denegaciones().size());
 		Assert.assertEquals(0, baseDeDatos.jugadoresPendientes().size());
 	}
 
+
+	@Test
+	public void evaluarJugadores2() {
+		System.out.println("Tiene que desaprobar 1");
+		baseDeDatos.evaluarJugadoresPendientes2( (Jugador j) -> j.edad() >= 23  );
+		Assert.assertEquals(11, baseDeDatos.jugadoresAprobados().size());
+		Assert.assertEquals(1, baseDeDatos.denegaciones().size());
+		Assert.assertEquals(0, baseDeDatos.jugadoresPendientes().size());
+	}
 
 }

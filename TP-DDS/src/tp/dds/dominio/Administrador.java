@@ -1,6 +1,6 @@
 package tp.dds.dominio;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import tp.dds.interfaces.Persona;
 
@@ -35,7 +35,7 @@ public class Administrador implements Persona {
 			} else {
 				
 				String motivo = "No me cae bien";
-				Denegacion denegacion = new Denegacion(new Date(), motivo, jugador);
+				Denegacion denegacion = new Denegacion(LocalDateTime.now(), motivo, jugador);
 				baseDeDatos.denegaciones().add(denegacion);
 				System.out.println(jugador.nombre()+ " fue rechazado.");
 			} 

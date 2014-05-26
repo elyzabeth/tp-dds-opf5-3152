@@ -1,20 +1,20 @@
 package tp.dds.dominio;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 public class Denegacion {
 
-		private Date fecha;
+		private LocalDateTime fecha;
 		private String motivo;
 		private Jugador jugador;
 
-		public Denegacion (Date fecha, String motivo, Jugador jugador) {
+		public Denegacion (LocalDateTime fecha, String motivo, Jugador jugador) {
 			this.fecha = fecha;
 			this.motivo = motivo;
 			this.jugador = jugador;
 		}
 
-		public Date fecha() {
+		public LocalDateTime fecha() {
 			return fecha;
 		}
 
