@@ -1,13 +1,17 @@
 package dds.g14.tp.entities;
 
+import java.util.List;
+
 public class MailSender {
 
 	public MailSender() {
 	}
 
-	public void sendMail(String mensaje, String destinatario){
-		Mail mail = new Mail(mensaje, destinatario);
-		System.out.println("Se envio un mail a: " + mail.getDestinatario() +
-							" con mensaje: " + mail.getMensaje());
+	public void sendMail(String origen, String mensaje, String destinatario){
+		// TODO accion que va a realizar el verdadero MailSender
 	};
+	
+	public List<Mail> getMailsSentFrom(String origen){
+		return null;
+	}
 }

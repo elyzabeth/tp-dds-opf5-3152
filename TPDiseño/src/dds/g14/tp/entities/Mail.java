@@ -4,8 +4,10 @@ public class Mail {
 
 	private String mensaje;
 	private String destinatario;
+	private String origen;
 
-	public Mail(String mensaje, String destinatario) {
+	public Mail(String origen, String mensaje, String destinatario) {
+		this.origen	= origen;
 		this.mensaje = mensaje;
 		this.destinatario = destinatario;
 	}
@@ -17,6 +19,9 @@ public class Mail {
 	public String getDestinatario() {
 		return destinatario;
 	}
-
+	
+	public String getOrigen(){
+		return origen;
+	}
 
 }

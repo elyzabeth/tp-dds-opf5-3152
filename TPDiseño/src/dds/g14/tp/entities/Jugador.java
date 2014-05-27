@@ -15,6 +15,7 @@ public class Jugador {
 	public Participacion participacion;
 	private List<Infraccion> infracciones;
 	private String direccionMail;
+	public List<Jugador> amigos;
 	
 	public Jugador(int edad, boolean confiable, Participacion p, String direccionMail){
 		this.confiabilidad = confiable;
@@ -22,6 +23,7 @@ public class Jugador {
 		this.participacion = p;
 		this.direccionMail = direccionMail;
 		infracciones = new ArrayList<Infraccion>();
+		amigos = new ArrayList<Jugador>();
 	}
 	
 	public boolean retirarseAnteIngresoNuevoJugador(Jugador jugador){
@@ -46,5 +48,8 @@ public class Jugador {
 		return infracciones;
 	}
 	
+	public void setAmigo(Jugador nuevoAmigo){
+		this.amigos.add(nuevoAmigo);
+	}
 	
 }

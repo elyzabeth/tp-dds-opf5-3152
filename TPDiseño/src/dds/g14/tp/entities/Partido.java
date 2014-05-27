@@ -5,12 +5,14 @@ import java.util.Date;
 import java.util.List;
 
 import dds.g14.tp.entities.infraccion.JugadorNoPresentoReemplazo;
+import dds.g14.tp.exceptions.ExpectedException;
 import dds.g14.tp.exceptions.ImposibleAgregarJugadorAPartidoException;
+import dds.g14.tp.exceptions.ImposibleJugarEnPartidoException;
 import dds.g14.tp.exceptions.JugadorNoEsParticipanteException;
 
 public class Partido {
 	
-	static private int CANT_MAX_JUGADORES = 10;
+	static public int CANT_MAX_JUGADORES = 10;
 	
 	public Date fechaInicio;
 	
@@ -18,40 +20,22 @@ public class Partido {
 	
 	private String direccionMailAdminitrador;
 	
-	private MailSender mailSender;
-	
-	public Partido(String direccionMailAdmin, Date fecha,Jugador...jugadores){
+	public Partido(String direccionMailAdmin, Date fecha){
 		this.fechaInicio = fecha;
 		this.direccionMailAdminitrador = direccionMailAdmin;
 		this.integrantes = new ArrayList<Jugador>();
-		this.mailSender = new MailSender();
-		for (Jugador jugador : jugadores) {
-			this.agregarJugador(jugador);
-		}
 	}
 	
-	public void agregarJugador(Jugador interesado){
-		try {
-			interesado.puedeJugarEn(this);
-			puedoAgregar(interesado);
-			integrantes.add(interesado);
-			enviarMailAIntegrantes();
-			if(integrantes.size() == CANT_MAX_JUGADORES)
-				enviarMailAdmin("Se completo el partido");
-			comprobarCondicionesDeParticipantes();
-		} catch (Exception e) {
-			System.out.println("Ocurrio un error agregando un jugador: " + e);
-		}
-		
+	public void agregarJugador(Jugador interesado) throws ExpectedException{
+		interesado.puedeJugarEn(this);
+		puedoAgregar(interesado);
+		integrantes.add(interesado);
+		comprobarCondicionesDeParticipantes();
 	}
 	
 	public void retirarJugador(Jugador jugador) throws JugadorNoEsParticipanteException{
 		contieneJugador(jugador);
-		int cantAnt = integrantes.size();
-		integrantes.remove(jugador);
-		if(cantAnt == CANT_MAX_JUGADORES && (integrantes.size() == CANT_MAX_JUGADORES-1)){
-			enviarMailAdmin("El partido esta incompleto de nuevo");
-		}	
+		integrantes.remove(jugador);	
 	}
 	
 	public void contieneJugador(Jugador jugador) throws JugadorNoEsParticipanteException{
@@ -63,6 +47,10 @@ public class Partido {
 		return direccionMailAdminitrador;
 	}
 	
+	public Date getFechaInicio() {
+		return fechaInicio;
+	}
+
 	public void presentarReemplazoAnteBaja(Jugador baja, Jugador reemplazo){
 		try {
 			retirarJugador(baja);
@@ -114,25 +102,5 @@ public class Partido {
 		}else{
 			retirarJugador(jugadorASacar);
 		}
-	}
-	
-	private void mandarMail(String mensaje, List<String> destinatarios){
-		for (String destinatario : destinatarios) {
-			mailSender.sendMail(mensaje, destinatario);
-		}
-	}
-	
-	private void enviarMailAIntegrantes(){
-		List<String> direcciones = new ArrayList<String>();
-		for (Jugador jugador : integrantes) {
-			direcciones.add(jugador.getDireccionMail());
-		}
-		mandarMail("Se agrego un nuevo jugador", direcciones);
-	}
-	
-	private void enviarMailAdmin(String mensaje){
-		List<String> direcciones = new ArrayList<String>();
-		direcciones.add(getDireccionMailAdminitrador());
-		mandarMail(mensaje, direcciones);
 	}
 }
