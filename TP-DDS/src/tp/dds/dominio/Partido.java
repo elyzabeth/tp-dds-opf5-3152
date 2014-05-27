@@ -13,7 +13,6 @@ import tp.dds.observer.InscripcionObserver;
 public class Partido {
 
 	private final Integer MAX_JUGADORES_XPARTIDO = 10;
-	//private Date fecha;
 	private LocalDateTime fecha;
 	private String lugar;
 	private Administrador administrador;

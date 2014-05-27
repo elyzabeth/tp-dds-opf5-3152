@@ -22,7 +22,7 @@ public class Administrador implements Persona {
 		return this.mail;
 	}
 	
-	public void evaluarJugadoresPendientes(BaseDeDatos baseDeDatos) { 
+	public void evaluarJugadoresPendientes(Jugadores baseDeDatos) { 
 		
 		while(baseDeDatos.jugadoresPendientes().size() > 0) {
 			

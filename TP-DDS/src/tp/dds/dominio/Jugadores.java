@@ -4,22 +4,17 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+
 import tp.dds.interfaces.CheckCandidato;
 
-public class BaseDeDatos {
+public class Jugadores {
 
 	private List<Jugador> jugadoresPendientes;
 	private List<Jugador> jugadoresAprobados;
 	private List<Denegacion> denegaciones;
-	private CheckCandidato evaluador;
 
-	public BaseDeDatos(){
-		this(null);
-	}
-
-	public BaseDeDatos(CheckCandidato checker){
+	public Jugadores(){
 		inicializar();
-		this.evaluador = checker;
 	}
 
 	private void inicializar(){
@@ -41,31 +36,29 @@ public class BaseDeDatos {
 	}
 
 	public boolean proponerJugador(Jugador jugador) {
-		
 		return this.jugadoresPendientes.add(jugador);
 	}
 
-	public void evaluarJugadoresPendientes() { 
-
-		for (Jugador candidato : this.jugadoresPendientes) {
-			if(evaluador.cumpleCondicion(candidato)){
-				this.jugadoresAprobados.add(candidato);
-			} else {
-				this.denegaciones.add(new Denegacion(LocalDateTime.now(), "No cumple condicion", candidato));
-			}
-		}
-		this.jugadoresPendientes.clear();
+	public void aprobarJugador(Jugador jugador) {
+		this.jugadoresPendientes.remove(jugador);
+		this.jugadoresAprobados.add(jugador);
 	}
 
-	public void evaluarJugadoresPendientes2(CheckCandidato evaluador) {
+	public void desaprobarJugador(Jugador jugador) {
+		this.jugadoresPendientes.remove(jugador);
+		this.denegaciones.add(new Denegacion(LocalDateTime.now(), "No cumple condicion", jugador));
+	}
+
+	public void evaluarJugadoresPendientes (CheckCandidato evaluador) {
 
 		for (Jugador candidato : this.jugadoresPendientes) {
 			if(evaluador.cumpleCondicion(candidato)){
-				this.jugadoresAprobados.add(candidato);
+				aprobarJugador(candidato);
 			} else {
-				this.denegaciones.add(new Denegacion(LocalDateTime.now(), "No cumple condicion", candidato));
+				desaprobarJugador(candidato);
 			}
 		}
+
 		this.jugadoresPendientes.clear();
 	}
 
