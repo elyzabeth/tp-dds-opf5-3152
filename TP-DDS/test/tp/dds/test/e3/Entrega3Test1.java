@@ -77,8 +77,9 @@ public class Entrega3Test1 {
 	public void agregoUnaCalificacion() {
 		System.out.println("Obtengo 1 jugador del partido y le agrego una calificacion");
 		Inscripcion ins = partido.inscripciones().get(0);
-		ins.addCalificacion(new Calificacion(6, "Debe correr mas durante el partido."));
-		Assert.assertEquals(6, partido.inscripciones().get(0).calificaciones().get(0).calificacion().intValue());
+		Calificacion c = new Calificacion(6, "Debe correr mas durante el partido.");
+		ins.calificarJugador(c);
+		Assert.assertEquals(c, partido.inscripciones().get(0).calificaciones().get(0));
 	}
 
 }

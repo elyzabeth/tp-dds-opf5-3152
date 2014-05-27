@@ -51,7 +51,7 @@ public abstract class Inscripcion {
 		this.calificaciones = calificaciones;
 	}
 
-	public void addCalificacion(Calificacion calificacion) {
+	public void calificarJugador(Calificacion calificacion) {
 		this.calificaciones.add(calificacion);
 	}
 
