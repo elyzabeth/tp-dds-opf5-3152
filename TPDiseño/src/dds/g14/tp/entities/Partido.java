@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import dds.g14.tp.entities.infraccion.JugadorNoPresentoReemplazo;
+import dds.g14.tp.exceptions.ExpectedException;
 import dds.g14.tp.exceptions.ImposibleAgregarJugadorAPartidoException;
 import dds.g14.tp.exceptions.JugadorNoEsParticipanteException;
 import dds.g14.tp.observers.Observer;
@@ -21,33 +22,26 @@ public class Partido {
 	
 	private String direccionMailAdminitrador;
 	
-	public Partido(String direccionMailAdmin, Date fecha,Jugador...jugadores){
+	public Jugador ultimoAgregado;
+	
+	public Partido(String direccionMailAdmin, Date fecha){
 		this.fechaInicio = fecha;
 		this.direccionMailAdminitrador = direccionMailAdmin;
 		this.integrantes = new ArrayList<Jugador>();
 		this.observers = new ArrayList<Observer>();
-		for (Jugador jugador : jugadores) {
-			this.agregarJugador(jugador);
-		}
 	}
 	
-	public void agregarJugador(Jugador interesado){
-		try {
-			interesado.puedeJugarEn(this);
-			puedoAgregar(interesado);
-			integrantes.add(interesado);
-			comprobarCondicionesDeParticipantes();
-			observersRealizarAcciones();
-		} catch (Exception e) {
-			System.out.println("Ocurrio un error agregando un jugador: " + e);
-		}
-		
+	public void agregarJugador(Jugador interesado) throws ExpectedException{
+		interesado.puedeJugarEn(this);
+		puedoAgregar(interesado);
+		integrantes.add(interesado);
+		ultimoAgregado = interesado;
+		comprobarCondicionesDeParticipantes();
 	}
 	
 	public void retirarJugador(Jugador jugador) throws JugadorNoEsParticipanteException{
 		contieneJugador(jugador);
 		integrantes.remove(jugador);
-		observersRealizarAcciones();
 	}
 	
 	public void contieneJugador(Jugador jugador) throws JugadorNoEsParticipanteException{
@@ -59,24 +53,25 @@ public class Partido {
 		observers.add(observer);
 	}
 	
-	public void presentarReemplazoAnteBaja(Jugador baja, Jugador reemplazo){
-		try {
-			retirarJugador(baja);
-			if(reemplazo != null){
-				agregarJugador(reemplazo);
-			}else{
-				baja.imponerInfraccion(new JugadorNoPresentoReemplazo(new Date()));
-			}
-		} catch (JugadorNoEsParticipanteException e) {
-			System.out.println("Se intento dar de baja un jugador que no es participante");
+	public String getDireccionMailAdminitrador() {
+		return direccionMailAdminitrador;
+	}
+	
+	public Date getFechaInicio() {
+		return fechaInicio;
+	}
+
+	public void presentarReemplazoAnteBaja(Jugador baja, Jugador reemplazo) throws ExpectedException{
+		retirarJugador(baja);
+		if(reemplazo != null){
+			agregarJugador(reemplazo);
+		}else{
+			baja.imponerInfraccion(new JugadorNoPresentoReemplazo(new Date()));
+			observersRealizarAcciones();
 		}
 	}
 	
 	/*  -----  Metodos privados  -----  */
-	
-	public String getDireccionMailAdminitrador() {
-		return direccionMailAdminitrador;
-	}
 
 	private void comprobarCondicionesDeParticipantes() {
 		List<Jugador> jugadoresAEliminar = new ArrayList<Jugador>();
@@ -101,7 +96,7 @@ public class Partido {
 		}
 	}
 	
-	private void liberarEspacioEnIntegrantesPara(Jugador interesado) throws ImposibleAgregarJugadorAPartidoException,JugadorNoEsParticipanteException{
+	private void liberarEspacioEnIntegrantesPara(Jugador interesado) throws ImposibleAgregarJugadorAPartidoException, JugadorNoEsParticipanteException{
 		Jugador jugadorASacar = null;
 		for (Jugador jugador : integrantes) {
 			if(jugador.retirarseAnteIngresoNuevoJugador(interesado)){

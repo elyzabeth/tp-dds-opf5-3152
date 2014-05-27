@@ -9,9 +9,9 @@ public abstract class Observer {
 	
 	public MailSender mailSender;
 	
-	public Observer(Partido partido) {
+	public Observer(Partido partido, MailSender mailSender) {
 		this.partido = partido;
-		mailSender = new MailSender();
+		this.mailSender = mailSender;
 	}
 	
 	public abstract void realizarObservacion();
